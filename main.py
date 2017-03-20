@@ -29,7 +29,7 @@ class MainPage(Handler):
         self.render("rot13.html", text=text)
 
     def post(self):
-        text = self.request.get('rot13_text')
+        text = self.request.get('text')
         rot13_text = codecs.encode(text, 'rot_13')
         self.render("rot13.html", text = rot13_text)
 
