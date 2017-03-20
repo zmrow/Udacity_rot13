@@ -1,6 +1,7 @@
 import os
 import jinja2
 import webapp2
+import codecs
 
 # Jinja env setup taken from Googles sample app here:
 # https://github.com/GoogleCloudPlatform/appengine-guestbook-python/blob/master/guestbook.py
@@ -10,12 +11,6 @@ JINJA_ENV = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-form="""
-<form method="post" action="/testform">
-    <input name="q">
-    <input type="submit">
-</form>
-"""
 
 class Handler(webapp2.RequestHandler):
     def write(self, *a, **kw):
@@ -28,12 +23,14 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
-class Handler(Handler):
-    def write(self, *a, **kw):
-        self.response.out.write(*a, **kw)
 
 class MainPage(Handler):
-    def get(self):
-        self.render("rot13.html")
+    def get(self, text=''):
+        self.render("rot13.html", text=text)
+
+    def post(self):
+        text = self.request.get('rot13_text')
+        rot13_text = codecs.encode(text, 'rot_13')
+        self.render("rot13.html", text = rot13_text)
 
 app = webapp2.WSGIApplication([('/', MainPage)],debug=True)

@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<form id="rot13_form" action="post">
-  <textarea id="rot13_form" name="" cols="30" rows="10"></textarea>
+<form id="rot13_form" method="post">
+  <textarea id="rot13_form" name="rot13_text" cols="30" rows="10">{{ text }}</textarea>
   <br>
   <input type="submit">
 </form>
