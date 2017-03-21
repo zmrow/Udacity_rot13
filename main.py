@@ -24,6 +24,14 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 
+class UserPage(Handler):
+    def get(self, text=''):
+        self.render("user_signup.html", text=text)
+
+    def post(self):
+        pass
+
+
 class MainPage(Handler):
     def get(self, text=''):
         self.render("rot13.html", text=text)
@@ -33,4 +41,6 @@ class MainPage(Handler):
         rot13_text = codecs.encode(text, 'rot_13')
         self.render("rot13.html", text = rot13_text)
 
-app = webapp2.WSGIApplication([('/', MainPage)],debug=True)
+app = webapp2.WSGIApplication([('/', MainPage),
+                               ('/user_signup', UserPage)],
+                               debug=True)
